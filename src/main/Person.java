@@ -1,5 +1,9 @@
 package main;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Person {
 	private String _lastName;
 	private String _firstName;
@@ -8,19 +12,42 @@ public class Person {
 	private String _birthday;
 	
 	
-	public Person(String lastName, String firstName, String gender, String color, String dob) {
-		_lastName = lastName;
-		_firstName = firstName;
+	public Person(String lastName, String firstName, String gender, String color, String dob) throws ParseException {
+		setLastName(lastName);
+		setFirstName(firstName);
 		setGender(gender);
-		_color = color;
-		_birthday = dob;
+		setColor(color);
+		setBirthday(dob);
 	}
 
 	private void setGender(String s) {
-		if (s == "M" || s == "Male") {
-			_gender = "Male";
-		} else if (s == "F" || s == "Female") {
+		if (s.contains("F")) {
 			_gender = "Female";
+		} else {
+			_gender = "Male";
+		}
+	}
+	
+	private void setLastName(String name) {
+		_lastName = name;
+	}
+	
+	private void setColor(String color) {
+		_color = color;
+	}
+	
+	private void setFirstName(String name) {
+		_firstName = name;
+	}
+	
+	private void setBirthday(String birthday) throws ParseException {
+		if (birthday.contains("-")) {
+			SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
+			SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
+			Date date = format1.parse(birthday);
+			_birthday = format2.format(date).toString();
+		} else {
+			_birthday = birthday;
 		}
 	}
 	
