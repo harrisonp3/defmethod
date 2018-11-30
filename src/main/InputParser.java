@@ -71,8 +71,8 @@ public class InputParser {
 				String lastName = personProps[0].replaceAll("\\s", "");
 				String firstName = personProps[1].replaceAll("\\s", "");
 				String gender = personProps[3].replaceAll("\\s", "");
-				String color = personProps[4].replaceAll("\\s", "");
-				String dob = personProps[5].replaceAll("\\s", ""); //@todo create a private method to convert date format
+				String dob = personProps[4].replaceAll("\\s", "");
+				String color = personProps[5].replaceAll("\\s", ""); //@todo create a private method to convert date format
 				Person person = new Person(lastName, firstName, gender, color, dob);
 				set.add(person);
 				if (_input.hasNextLine()) {
