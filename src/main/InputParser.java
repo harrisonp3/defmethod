@@ -95,6 +95,7 @@ public class InputParser {
 					writer.println(traits);
 				}
 				writer.close();
+				System.out.println("Output completed!");
 			}
 			catch (FileNotFoundException e) {
 				e.printStackTrace();
