@@ -9,7 +9,7 @@ public class InputParser {
 	private String _filepath;
 	private Scanner _input;
 	private String _delimiter;
-	private HashSet<Person> _people;
+	private static HashSet<Person> _people;
 
 	public InputParser(String filepath) throws FileNotFoundException {
 		_filepath = filepath;
@@ -49,7 +49,9 @@ public class InputParser {
 	}
 	
 	public static void getOutput() {
-		
+		if (!_people.isEmpty()) {
+			
+		}
 	}
 
 	private void determineDelimiter(String input) {
