@@ -39,6 +39,10 @@ public class InputParser {
 	private void parsePipeFile(String currentLine) throws ParseException {
 		HashSet<Person> set = new HashSet<Person>();
 		while (true) {
+			//@todo i think i need to split out this function into small pieces
+			// like building the person should be private method
+			// then this method should return the hash set
+			// and perhaps this method should have the scanner as a param
 			String[] personProps = currentLine.split("\\|");
 			if (personProps.length != 6) {
 				System.out.println("ERROR: Do not have all required props");
