@@ -20,6 +20,7 @@ public class InputParser {
 		_input = new Scanner(file);
 		this.parse();
 	}
+	
 	/**
 	 * @throws ParseException 
 	 */
@@ -28,59 +29,83 @@ public class InputParser {
 		String currentLine = _input.nextLine();
 		this.determineDelimiter(currentLine);
 		if (_delimiter == "pipe") {
-			while (true) {
-				String[] personProps = currentLine.split("\\|");
-				if (personProps.length != 6) System.out.println("ERROR: Do not have all required props");
-				String lastName = personProps[0].replaceAll("\\s", "");
-				String firstName = personProps[1].replaceAll("\\s", "");
-				String gender = personProps[3].replaceAll("\\s", "");
-				String color = personProps[4].replaceAll("\\s", "");
-				String dob = personProps[5].replaceAll("\\s", ""); //@todo create a private method to convert date format
-				Person person = new Person(lastName, firstName, gender, color, dob);
-				set.add(person);
-				if (_input.hasNextLine()) {
-					currentLine = _input.nextLine();
-				} else {
-					_people = set;
-					break;
-				}
-				
-			}
+			System.out.println("calling new function");
+			parsePipeFile(currentLine);
 		} else if (_delimiter == "comma") {
-			while (true) {
-				String[] personProps = currentLine.split("\\,");
-				if (personProps.length != 5) System.out.println("ERROR: Do not have all required props");
-				String lastName = personProps[0].replaceAll("\\s", "");
-				String firstName = personProps[1].replaceAll("\\s", "");
-				String gender = personProps[2].replaceAll("\\s", "");
-				String color = personProps[3].replaceAll("\\s", "");
-				String dob = personProps[4].replaceAll("\\s", ""); //@todo create a private method to convert date format
-				Person person = new Person(lastName, firstName, gender, color, dob);
-				set.add(person);
-				if (_input.hasNextLine()) {
-					currentLine = _input.nextLine();
-				} else {
-					_people = set;
-					break;
-				}
-			}
+			parseCommaFile(currentLine);
 		} else if (_delimiter == "space") {
-			while (true) {
-				String[] personProps = currentLine.split(" ");
-				if (personProps.length != 6) System.out.println("ERROR: Do not have all required props");
-				String lastName = personProps[0].replaceAll("\\s", "");
-				String firstName = personProps[1].replaceAll("\\s", "");
-				String gender = personProps[3].replaceAll("\\s", "");
-				String dob = personProps[4].replaceAll("\\s", "");
-				String color = personProps[5].replaceAll("\\s", ""); //@todo create a private method to convert date format
-				Person person = new Person(lastName, firstName, gender, color, dob);
-				set.add(person);
-				if (_input.hasNextLine()) {
-					currentLine = _input.nextLine();
-				} else {
-					_people = set;
-					break;
-				}
+			parseSpaceFile(currentLine);
+		}
+	}
+	
+	private void parsePipeFile(String currentLine) throws ParseException {
+		HashSet<Person> set = new HashSet<Person>();
+		while (true) {
+			String[] personProps = currentLine.split("\\|");
+			if (personProps.length != 6) {
+				System.out.println("ERROR: Do not have all required props");
+				break;
+			}
+			String lastName  = personProps[0].replaceAll("\\s", "");
+			String firstName = personProps[1].replaceAll("\\s", "");
+			String gender    = personProps[3].replaceAll("\\s", "");
+			String color     = personProps[4].replaceAll("\\s", "");
+			String dob       = personProps[5].replaceAll("\\s", "");
+			Person person    = new Person(lastName, firstName, gender, color, dob);
+			set.add(person);
+			if (_input.hasNextLine()) {
+				currentLine = _input.nextLine();
+			} else {
+				_people = set;
+				break;
+			}	
+		}
+	}
+	
+	private void parseCommaFile(String currentLine) throws ParseException {
+		HashSet<Person> set = new HashSet<Person>();
+		while (true) {
+			String[] personProps = currentLine.split("\\,");
+			if (personProps.length != 5) {
+				System.out.println("ERROR: Do not have all required props");
+				break;
+			}
+			String lastName  = personProps[0].replaceAll("\\s", "");
+			String firstName = personProps[1].replaceAll("\\s", "");
+			String gender    = personProps[2].replaceAll("\\s", "");
+			String color     = personProps[3].replaceAll("\\s", "");
+			String dob       = personProps[4].replaceAll("\\s", "");
+			Person person    = new Person(lastName, firstName, gender, color, dob);
+			set.add(person);
+			if (_input.hasNextLine()) {
+				currentLine = _input.nextLine();
+			} else {
+				_people = set;
+				break;
+			}
+		}
+	}
+	
+	private void parseSpaceFile(String currentLine) throws ParseException {
+		HashSet<Person> set = new HashSet<Person>();
+		while (true) {
+			String[] personProps = currentLine.split(" ");
+			if (personProps.length != 6) {
+				System.out.println("ERROR: Do not have all required props");
+				break;
+			}
+			String lastName  = personProps[0].replaceAll("\\s", "");
+			String firstName = personProps[1].replaceAll("\\s", "");
+			String gender    = personProps[3].replaceAll("\\s", "");
+			String dob       = personProps[4].replaceAll("\\s", "");
+			String color     = personProps[5].replaceAll("\\s", "");
+			Person person    = new Person(lastName, firstName, gender, color, dob);
+			set.add(person);
+			if (_input.hasNextLine()) {
+				currentLine = _input.nextLine();
+			} else {
+				_people = set;
+				break;
 			}
 		}
 	}
