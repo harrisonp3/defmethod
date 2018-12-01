@@ -29,7 +29,6 @@ public class InputParser {
 		String currentLine = _input.nextLine();
 		this.determineDelimiter(currentLine);
 		if (_delimiter == "pipe") {
-			System.out.println("calling new function");
 			parsePipeFile(currentLine);
 		} else if (_delimiter == "comma") {
 			parseCommaFile(currentLine);
