@@ -12,7 +12,7 @@ public class InputParser {
 	private String _filepath;
 	private Scanner _input;
 	private String _delimiter;
-	private static HashSet<Person> _people;
+	private HashSet<Person> _people;
 
 	public InputParser(String filepath) throws FileNotFoundException, ParseException {
 		_filepath = filepath;
@@ -109,7 +109,7 @@ public class InputParser {
 		}
 	}
 	
-	public static void getOutput() {
+	public void getOutput() {
 		if (!_people.isEmpty()) {
 			PrintWriter writer;
 			try {
