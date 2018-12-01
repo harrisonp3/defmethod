@@ -5,9 +5,7 @@ import java.text.ParseException;
 
 public class App {
 
-	public App() {
-		// TODO Auto-generated constructor stub
-	}
+	public App() {}
 
 	public static void main(String[] args) throws FileNotFoundException, ParseException {
 //		if (args.length == 0 || args[0] == null || args[0].trim().isEmpty()) {

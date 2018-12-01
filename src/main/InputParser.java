@@ -25,7 +25,6 @@ public class InputParser {
 	 * @throws ParseException 
 	 */
 	private void parse() throws ParseException {
-		HashSet<Person> set = new HashSet<Person>();
 		String currentLine = _input.nextLine();
 		this.determineDelimiter(currentLine);
 		if (_delimiter == "pipe") {
