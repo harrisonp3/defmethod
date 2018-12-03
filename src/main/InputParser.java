@@ -28,37 +28,84 @@ public class InputParser {
 	private void parse() throws ParseException {
 		String currentLine = getInput();
 		this.determineDelimiter(currentLine);
+		parseFile(currentLine);
+	}
+	
+	private String[] splitStringByDelimiter(String curr) {
 		if (_delimiter == "pipe") {
-			parsePipeFile(currentLine);
+			return curr.split("\\|");
 		} else if (_delimiter == "comma") {
-			parseCommaFile(currentLine);
+			return curr.split("\\,");
 		} else if (_delimiter == "space") {
-			parseSpaceFile(currentLine);
+			return curr.split(" ");
 		}
+		System.out.println("ERROR: No delimiter determined for file");
+		return new String[1];
+	}
+	
+	private Person getPersonFromProps(String[] personProps) throws ParseException {
+		if (_delimiter == "pipe") {
+			return getPersonFromPipeProps(personProps);
+		} else if (_delimiter == "comma") {
+			return getPersonFromCommaProps(personProps);
+		} else if (_delimiter == "space") {
+			return getPersonFromSpaceProps(personProps);
+		}
+		return null;
+	}
+	
+	private Person getPersonFromSpaceProps(String[] personProps) throws ParseException {
+		if (personProps.length != 6) {
+			System.out.println("ERROR: Do not have all required props");
+			return null;
+		}
+		String lastName  = personProps[0].replaceAll("\\s", "");
+		String firstName = personProps[1].replaceAll("\\s", "");
+		String gender    = personProps[3].replaceAll("\\s", "");
+		String dob       = personProps[4].replaceAll("\\s", "");
+		String color     = personProps[5].replaceAll("\\s", "");
+		Person person    = new Person(lastName, firstName, gender, color, dob);
+		return person;
+	}
+	
+	private Person getPersonFromPipeProps(String[] personProps) throws ParseException {
+		if (personProps.length != 6) {
+			System.out.println("ERROR: Do not have all required props");
+			return null;
+		}
+		String lastName  = personProps[0].replaceAll("\\s", "");
+		String firstName = personProps[1].replaceAll("\\s", "");
+		String gender    = personProps[3].replaceAll("\\s", "");
+		String color     = personProps[4].replaceAll("\\s", "");
+		String dob       = personProps[5].replaceAll("\\s", "");
+		Person person    = new Person(lastName, firstName, gender, color, dob);
+		return person;
+	}
+	
+	private Person getPersonFromCommaProps(String[] personProps) throws ParseException {
+		if (personProps.length != 5) {
+			System.out.println("ERROR: Do not have all required props");
+			return null;
+		}
+		String lastName  = personProps[0].replaceAll("\\s", "");
+		String firstName = personProps[1].replaceAll("\\s", "");
+		String gender    = personProps[2].replaceAll("\\s", "");
+		String color     = personProps[3].replaceAll("\\s", "");
+		String dob       = personProps[4].replaceAll("\\s", "");
+		Person person    = new Person(lastName, firstName, gender, color, dob);
+		return person;
 	}
 	
 	public String getInput() {
 		return _scanner.nextLine();
 	}
 	
-	private void parsePipeFile(String currentLine) throws ParseException {
+	private void parseFile(String currentLine) throws ParseException {
 		HashSet<Person> set = new HashSet<Person>();
 		while (true) {
-			//@todo i think i need to split out this function into small pieces
-			// like building the person should be private method
-			// then this method should return the hash set
-			// and perhaps this method should have the scanner as a param
-			String[] personProps = currentLine.split("\\|");
-			if (personProps.length != 6) {
-				System.out.println("ERROR: Do not have all required props");
-				break;
-			}
-			String lastName  = personProps[0].replaceAll("\\s", "");
-			String firstName = personProps[1].replaceAll("\\s", "");
-			String gender    = personProps[3].replaceAll("\\s", "");
-			String color     = personProps[4].replaceAll("\\s", "");
-			String dob       = personProps[5].replaceAll("\\s", "");
-			Person person    = new Person(lastName, firstName, gender, color, dob);
+			String[] personProps = splitStringByDelimiter(currentLine);
+			Person person = getPersonFromProps(personProps);
+			if (person == null) break;
 			set.add(person);
 			if (_scanner.hasNextLine()) {
 				currentLine = getInput();
@@ -66,54 +113,6 @@ public class InputParser {
 				_people = set;
 				break;
 			}	
-		}
-	}
-	
-	private void parseCommaFile(String currentLine) throws ParseException {
-		HashSet<Person> set = new HashSet<Person>();
-		while (true) {
-			String[] personProps = currentLine.split("\\,");
-			if (personProps.length != 5) {
-				System.out.println("ERROR: Do not have all required props");
-				break;
-			}
-			String lastName  = personProps[0].replaceAll("\\s", "");
-			String firstName = personProps[1].replaceAll("\\s", "");
-			String gender    = personProps[2].replaceAll("\\s", "");
-			String color     = personProps[3].replaceAll("\\s", "");
-			String dob       = personProps[4].replaceAll("\\s", "");
-			Person person    = new Person(lastName, firstName, gender, color, dob);
-			set.add(person);
-			if (_scanner.hasNextLine()) {
-				currentLine = getInput();
-			} else {
-				_people = set;
-				break;
-			}
-		}
-	}
-	
-	private void parseSpaceFile(String currentLine) throws ParseException {
-		HashSet<Person> set = new HashSet<Person>();
-		while (true) {
-			String[] personProps = currentLine.split(" ");
-			if (personProps.length != 6) {
-				System.out.println("ERROR: Do not have all required props");
-				break;
-			}
-			String lastName  = personProps[0].replaceAll("\\s", "");
-			String firstName = personProps[1].replaceAll("\\s", "");
-			String gender    = personProps[3].replaceAll("\\s", "");
-			String dob       = personProps[4].replaceAll("\\s", "");
-			String color     = personProps[5].replaceAll("\\s", "");
-			Person person    = new Person(lastName, firstName, gender, color, dob);
-			set.add(person);
-			if (_scanner.hasNextLine()) {
-				currentLine = getInput();
-			} else {
-				_people = set;
-				break;
-			}
 		}
 	}
 	
