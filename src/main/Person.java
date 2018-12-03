@@ -29,11 +29,11 @@ public class Person {
 		setColor(color);
 		setBirthday(dob);
 	}
-/**
- * Setter for _gender value
- * 
- * @param String s
- */
+	
+	/**
+	 * Setter for _gender value
+	 * @param String s
+	 */
 	private void setGender(String s) {
 		if (s.contains("F")) {
 			_gender = "Female";
