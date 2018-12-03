@@ -9,16 +9,14 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 public class InputParser {
-	private final Scanner _scanner;
+	private Scanner _scanner;
 	private String _delimiter;
 	private HashSet<Person> _people;
 
-	public InputParser(String filepath) throws FileNotFoundException, ParseException {
-		this(new Scanner(new File(filepath)));
-	}
-	
-	InputParser(Scanner scanner) {
-		this._scanner = scanner;
+	public InputParser() {}
+
+	public void setScanner(String filepath) throws FileNotFoundException {
+		this._scanner = new Scanner(new File(filepath));
 	}
 	
 	/**
@@ -63,7 +61,7 @@ public class InputParser {
 		return _delimiter == "space";
 	}
 	
-	private Person getPersonFromSpaceProps(String[] personProps) throws ParseException {
+	protected Person getPersonFromSpaceProps(String[] personProps) throws ParseException {
 		if (personProps.length != 6) {
 			System.out.println("ERROR: Do not have all required props");
 			return null;
@@ -77,7 +75,7 @@ public class InputParser {
 		return person;
 	}
 	
-	private Person getPersonFromPipeProps(String[] personProps) throws ParseException {
+	protected Person getPersonFromPipeProps(String[] personProps) throws ParseException {
 		if (personProps.length != 6) {
 			System.out.println("ERROR: Do not have all required props");
 			return null;
@@ -91,7 +89,7 @@ public class InputParser {
 		return person;
 	}
 	
-	private Person getPersonFromCommaProps(String[] personProps) throws ParseException {
+	protected Person getPersonFromCommaProps(String[] personProps) throws ParseException {
 		if (personProps.length != 5) {
 			System.out.println("ERROR: Do not have all required props");
 			return null;
@@ -150,6 +148,9 @@ public class InputParser {
 		}
 	}
 
+	public String getDelimiter() {
+		return _delimiter;
+	}
 	protected void determineDelimiter(String input) {
 		if (input.contains("|")) {
 			_delimiter = "pipe";
