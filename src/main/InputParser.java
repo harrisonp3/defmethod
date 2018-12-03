@@ -28,7 +28,7 @@ public class InputParser {
 		parseFile(currentLine);
 	}
 	
-	private String[] splitStringByDelimiter(String curr) {
+	protected String[] splitStringByDelimiter(String curr) {
 		if (isPipeDelimited()) {
 			return curr.split("\\|");
 		} else if (isCommaDelimited()) {
@@ -40,7 +40,7 @@ public class InputParser {
 		return new String[1];
 	}
 	
-	private Person getPersonFromProps(String[] personProps) throws ParseException {
+	protected Person getPersonFromProps(String[] personProps) throws ParseException {
 		if (isPipeDelimited()) {
 			return getPersonFromPipeProps(personProps);
 		} else if (isCommaDelimited()) {
