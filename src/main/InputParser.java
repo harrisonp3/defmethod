@@ -15,7 +15,6 @@ public class InputParser {
 
 	public InputParser(String filepath) throws FileNotFoundException, ParseException {
 		this(new Scanner(new File(filepath)));
-		this.parse();
 	}
 	
 	InputParser(Scanner scanner) {
@@ -25,18 +24,18 @@ public class InputParser {
 	/**
 	 * @throws ParseException 
 	 */
-	private void parse() throws ParseException {
+	public void parse() throws ParseException {
 		String currentLine = getInput();
 		this.determineDelimiter(currentLine);
 		parseFile(currentLine);
 	}
 	
 	private String[] splitStringByDelimiter(String curr) {
-		if (_delimiter == "pipe") {
+		if (isPipeDelimited()) {
 			return curr.split("\\|");
-		} else if (_delimiter == "comma") {
+		} else if (isCommaDelimited()) {
 			return curr.split("\\,");
-		} else if (_delimiter == "space") {
+		} else if (isSpaceDelimited()) {
 			return curr.split(" ");
 		}
 		System.out.println("ERROR: No delimiter determined for file");
@@ -44,14 +43,24 @@ public class InputParser {
 	}
 	
 	private Person getPersonFromProps(String[] personProps) throws ParseException {
-		if (_delimiter == "pipe") {
+		if (isPipeDelimited()) {
 			return getPersonFromPipeProps(personProps);
-		} else if (_delimiter == "comma") {
+		} else if (isCommaDelimited()) {
 			return getPersonFromCommaProps(personProps);
-		} else if (_delimiter == "space") {
+		} else if (isSpaceDelimited()) {
 			return getPersonFromSpaceProps(personProps);
 		}
 		return null;
+	}
+	
+	private boolean isPipeDelimited() {
+		return _delimiter == "pipe";
+	}
+	private boolean isCommaDelimited() {
+		return _delimiter == "comma";
+	}
+	private boolean isSpaceDelimited() {
+		return _delimiter == "space";
 	}
 	
 	private Person getPersonFromSpaceProps(String[] personProps) throws ParseException {
@@ -141,7 +150,7 @@ public class InputParser {
 		}
 	}
 
-	private void determineDelimiter(String input) {
+	protected void determineDelimiter(String input) {
 		if (input.contains("|")) {
 			_delimiter = "pipe";
 		} else if (input.contains(",")) {

@@ -15,6 +15,7 @@ public class App {
 //		String path = args[0];
 		String path = "./src/main/pipe.txt";
 		InputParser parser = new InputParser(path);
+		parser.parse();
 		parser.getOutput();
 	}
 
