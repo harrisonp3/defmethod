@@ -9,23 +9,24 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 public class InputParser {
-	private String _filepath;
-	private Scanner _input;
+	private final Scanner _scanner;
 	private String _delimiter;
 	private HashSet<Person> _people;
 
 	public InputParser(String filepath) throws FileNotFoundException, ParseException {
-		_filepath = filepath;
-		File file = new File(filepath);
-		_input = new Scanner(file);
+		this(new Scanner(new File(filepath)));
 		this.parse();
+	}
+	
+	InputParser(Scanner scanner) {
+		this._scanner = scanner;
 	}
 	
 	/**
 	 * @throws ParseException 
 	 */
 	private void parse() throws ParseException {
-		String currentLine = _input.nextLine();
+		String currentLine = getInput();
 		this.determineDelimiter(currentLine);
 		if (_delimiter == "pipe") {
 			parsePipeFile(currentLine);
@@ -34,6 +35,10 @@ public class InputParser {
 		} else if (_delimiter == "space") {
 			parseSpaceFile(currentLine);
 		}
+	}
+	
+	public String getInput() {
+		return _scanner.nextLine();
 	}
 	
 	private void parsePipeFile(String currentLine) throws ParseException {
@@ -55,8 +60,8 @@ public class InputParser {
 			String dob       = personProps[5].replaceAll("\\s", "");
 			Person person    = new Person(lastName, firstName, gender, color, dob);
 			set.add(person);
-			if (_input.hasNextLine()) {
-				currentLine = _input.nextLine();
+			if (_scanner.hasNextLine()) {
+				currentLine = getInput();
 			} else {
 				_people = set;
 				break;
@@ -79,8 +84,8 @@ public class InputParser {
 			String dob       = personProps[4].replaceAll("\\s", "");
 			Person person    = new Person(lastName, firstName, gender, color, dob);
 			set.add(person);
-			if (_input.hasNextLine()) {
-				currentLine = _input.nextLine();
+			if (_scanner.hasNextLine()) {
+				currentLine = getInput();
 			} else {
 				_people = set;
 				break;
@@ -103,8 +108,8 @@ public class InputParser {
 			String color     = personProps[5].replaceAll("\\s", "");
 			Person person    = new Person(lastName, firstName, gender, color, dob);
 			set.add(person);
-			if (_input.hasNextLine()) {
-				currentLine = _input.nextLine();
+			if (_scanner.hasNextLine()) {
+				currentLine = getInput();
 			} else {
 				_people = set;
 				break;
