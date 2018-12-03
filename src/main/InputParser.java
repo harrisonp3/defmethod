@@ -13,8 +13,16 @@ public class InputParser {
 	private String _delimiter;
 	private HashSet<Person> _people;
 
+	/**
+	 * Constructor
+	 */
 	public InputParser() {}
 
+	/**
+	 * Set the Scanner object for this class
+	 * @param String filepath path to the file to be parsed
+	 * @throws FileNotFoundException
+	 */
 	public void setScanner(String filepath) throws FileNotFoundException {
 		this._scanner = new Scanner(new File(filepath));
 	}
@@ -28,6 +36,12 @@ public class InputParser {
 		parseFile(currentLine);
 	}
 	
+	/**
+	 * Based on the delimiter, split the string
+	 * 
+	 * @param String curr
+	 * @return String[]
+	 */
 	protected String[] splitStringByDelimiter(String curr) {
 		if (isPipeDelimited()) {
 			return curr.split("\\|");
@@ -40,6 +54,13 @@ public class InputParser {
 		return new String[1];
 	}
 	
+	/**
+	 * Get a person object from the String array passed in
+	 * 
+	 * @param String[] personProps
+	 * @return void
+	 * @throws ParseException
+	 */
 	protected Person getPersonFromProps(String[] personProps) throws ParseException {
 		if (isPipeDelimited()) {
 			return getPersonFromPipeProps(personProps);
@@ -51,16 +72,42 @@ public class InputParser {
 		return null;
 	}
 	
+	/**
+	 * Whether or not the file being parsed is delimited with pipe ("|") char
+	 * 
+	 * @return boolean
+	 */
 	private boolean isPipeDelimited() {
 		return _delimiter == "pipe";
 	}
+	
+	/**
+	 * Whether or not the file being parsed is delimited with comma (",") char
+	 * 
+	 * @return boolean
+	 */
 	private boolean isCommaDelimited() {
 		return _delimiter == "comma";
 	}
+	
+	/**
+	 * Whether or not the file being parsed is delimited with space (" ") char
+	 * 
+	 * @return boolean
+	 */
 	private boolean isSpaceDelimited() {
 		return _delimiter == "space";
 	}
 	
+	/**
+	 * Logic specific to grabbing information from the String array
+	 * derived from space-delimited data (how many elements in the array,
+	 * what elements are at what index) and instantiating a Person object
+	 * 
+	 * @param String[] personProps
+	 * @return Person
+	 * @throws ParseException
+	 */
 	protected Person getPersonFromSpaceProps(String[] personProps) throws ParseException {
 		if (personProps.length != 6) {
 			System.out.println("ERROR: Do not have all required props");
@@ -75,6 +122,15 @@ public class InputParser {
 		return person;
 	}
 	
+	/**
+	 * Logic specific to grabbing information from the String array
+	 * derived from pipe-delimited data (how many elements in the array,
+	 * what elements are at what index) and instantiating a Person object
+	 * 
+	 * @param String[] personProps
+	 * @return Person
+	 * @throws ParseException
+	 */
 	protected Person getPersonFromPipeProps(String[] personProps) throws ParseException {
 		if (personProps.length != 6) {
 			System.out.println("ERROR: Do not have all required props");
@@ -89,6 +145,15 @@ public class InputParser {
 		return person;
 	}
 	
+	/**
+	 * Logic specific to grabbing information from the String array
+	 * derived from comma-delimited data (how many elements in the array,
+	 * what elements are at what index) and instantiating a Person object
+	 * 
+	 * @param String[] personProps
+	 * @return Person
+	 * @throws ParseException
+	 */
 	protected Person getPersonFromCommaProps(String[] personProps) throws ParseException {
 		if (personProps.length != 5) {
 			System.out.println("ERROR: Do not have all required props");
@@ -102,11 +167,23 @@ public class InputParser {
 		Person person    = new Person(lastName, firstName, gender, color, dob);
 		return person;
 	}
-	
+	/**
+	 * Get the next line in the input from the Scanner object
+	 * 
+	 * @return String
+	 */
 	public String getInput() {
 		return _scanner.nextLine();
 	}
 	
+	/**
+	 * Build a HashSet object of Person objects by calling String.split()
+	 * on each line of the input file, generating a Person object from that,
+	 * and adding to the HashSet
+	 * 
+	 * @param String currentLine
+	 * @throws ParseException
+	 */
 	private void parseFile(String currentLine) throws ParseException {
 		HashSet<Person> set = new HashSet<Person>();
 		// Build up a hash set of Person objects from the lines of input
@@ -125,6 +202,9 @@ public class InputParser {
 		}
 	}
 	
+	/**
+	 * Print the properties of the Person objects in the HashSet
+	 */
 	public void getOutput() {
 		if (!_people.isEmpty()) {
 			PrintWriter writer;
@@ -148,9 +228,21 @@ public class InputParser {
 		}
 	}
 
+	/**
+	 * Get the delimiter determined
+	 * 
+	 * @return String delimiter value
+	 */
 	public String getDelimiter() {
 		return _delimiter;
 	}
+	
+	/**
+	 * Determine the delimiter (and set its value) based on the String passed in
+	 * and the characters that it includes
+	 * 
+	 * @param String input
+	 */
 	protected void determineDelimiter(String input) {
 		if (input.contains("|")) {
 			_delimiter = "pipe";
