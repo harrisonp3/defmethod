@@ -102,9 +102,11 @@ public class InputParser {
 	
 	private void parseFile(String currentLine) throws ParseException {
 		HashSet<Person> set = new HashSet<Person>();
+		// Build up a hash set of Person objects from the lines of input
 		while (true) {
 			String[] personProps = splitStringByDelimiter(currentLine);
 			Person person = getPersonFromProps(personProps);
+			// If we weren't able to successfully parse a line of input, short circuit
 			if (person == null) break;
 			set.add(person);
 			if (_scanner.hasNextLine()) {
