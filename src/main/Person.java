@@ -10,6 +10,7 @@ public class Person {
 	private String _gender;
 	private String _color;
 	private String _birthday;
+	private Date _birthDate;
 	
 	/**
 	 * Constructor, calls setters of all class variables
@@ -78,15 +79,26 @@ public class Person {
 	 * @throws ParseException
 	 */
 	private void setBirthday(String birthday) throws ParseException {
+		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
+		SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
 		if (birthday.contains("-")) {
-			SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
-			SimpleDateFormat format2 = new SimpleDateFormat("MM/dd/yyyy");
 			Date date = format1.parse(birthday);
+			_birthDate = date;
 			_birthday = format2.format(date).toString();
 		} else {
+			_birthDate = format2.parse(birthday);
 			_birthday = birthday;
 		}
 	}
+	/**
+	 * Get the Date object of the birthday value
+	 * 
+	 * @return Date
+	 */
+	public Date getBirthDate() {
+		return _birthDate;
+	}
+	
 	/**
 	 * Getter for _lastName
 	 * @return String

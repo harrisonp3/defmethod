@@ -208,7 +208,9 @@ public class InputParser {
 	 * Print the properties of the Person objects in the HashSet
 	 */
 	public void getOutput() {
-		sort();
+//		sortByGenderAndLastName();
+//		sortByBirthdayAndLastName();
+		sortByLastNameDescending();
 		if (!_peopleSorted.isEmpty()) {
 			PrintWriter writer;
 			try {
@@ -241,7 +243,7 @@ public class InputParser {
 	}
 	
 	//@tood hpaup need to make this dynamic based on the three options
-	public void sort() {
+	public void sortByGenderAndLastName() {
 		System.out.println("SORTING!");
 		if (!_people.isEmpty()) {
 			List<Person> list = new ArrayList<Person>();
@@ -261,6 +263,48 @@ public class InputParser {
 					String lastName1 = ((Person) o1).getLastName();
 					String lastName2 = ((Person) o2).getLastName();
 					return lastName1.compareTo(lastName2);
+				}
+			});
+			_peopleSorted = list;
+		}
+	}
+	
+	public void sortByBirthdayAndLastName() {
+		if (!_people.isEmpty()) {
+			List<Person> list = new ArrayList<Person>();
+			for (Person person : _people) {
+				list.add(person);
+			}
+			Collections.sort(list, new Comparator() {
+				public int compare (Object o1, Object o2) {
+					// gender then last name ascending
+					Date bday1 = ((Person) o1).getBirthDate();
+					Date bday2 = ((Person) o2).getBirthDate();
+					int bdayComp = bday1.compareTo(bday2);
+					if (bdayComp != 0) {
+						return bdayComp;
+					}
+					
+					String lastName1 = ((Person) o1).getLastName();
+					String lastName2 = ((Person) o2).getLastName();
+					return lastName1.compareTo(lastName2);
+				}
+			});
+			_peopleSorted = list;
+		}
+	}
+	
+	public void sortByLastNameDescending() {
+		if (!_people.isEmpty()) {
+			List<Person> list = new ArrayList<Person>();
+			for (Person person : _people) {
+				list.add(person);
+			}
+			Collections.sort(list, new Comparator() {
+				public int compare (Object o1, Object o2) {
+					String lastName1 = ((Person) o1).getLastName();
+					String lastName2 = ((Person) o2).getLastName();
+					return lastName2.compareTo(lastName1);
 				}
 			});
 			_peopleSorted = list;
