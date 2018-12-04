@@ -14,6 +14,7 @@
 - to run:
   - two inputs, the location of the input file and a number (1-3) for the different sorting options
   - `java main.App ./main/pipe.txt 2` - in this case, the input file ("pipe.txt") is in the same directory as the .java files
+- you'll then see an output file ("output.txt") generated in `Def Method/src`
 
 ## Note
 - `1` corresponds to sorted by gender (females before males) then by last name ascending
