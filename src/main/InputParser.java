@@ -204,13 +204,25 @@ public class InputParser {
 		}
 	}
 	
+	private void sort(int x) {
+		switch(x) {
+		case 1:
+			sortByGenderAndLastName();
+		case 2:
+			sortByBirthdayAndLastName();
+		case 3:
+		default:
+			sortByLastNameDescending();
+		}
+	}
+	
 	/**
 	 * Print the properties of the Person objects in the HashSet
+	 * 
+	 * @param int sortPreference
 	 */
-	public void getOutput() {
-//		sortByGenderAndLastName();
-//		sortByBirthdayAndLastName();
-		sortByLastNameDescending();
+	public void getOutput(int sortPreference) {
+		sort(sortPreference);
 		if (!_peopleSorted.isEmpty()) {
 			PrintWriter writer;
 			try {
@@ -242,9 +254,8 @@ public class InputParser {
 		return _delimiter;
 	}
 	
-	//@tood hpaup need to make this dynamic based on the three options
-	public void sortByGenderAndLastName() {
-		System.out.println("SORTING!");
+
+	private void sortByGenderAndLastName() {
 		if (!_people.isEmpty()) {
 			List<Person> list = new ArrayList<Person>();
 			for (Person person : _people) {
@@ -262,14 +273,14 @@ public class InputParser {
 					
 					String lastName1 = ((Person) o1).getLastName();
 					String lastName2 = ((Person) o2).getLastName();
-					return lastName1.compareTo(lastName2);
+					return lastName2.compareTo(lastName1);
 				}
 			});
 			_peopleSorted = list;
 		}
 	}
 	
-	public void sortByBirthdayAndLastName() {
+	private void sortByBirthdayAndLastName() {
 		if (!_people.isEmpty()) {
 			List<Person> list = new ArrayList<Person>();
 			for (Person person : _people) {
@@ -277,7 +288,7 @@ public class InputParser {
 			}
 			Collections.sort(list, new Comparator() {
 				public int compare (Object o1, Object o2) {
-					// gender then last name ascending
+					// bday then last name ascending
 					Date bday1 = ((Person) o1).getBirthDate();
 					Date bday2 = ((Person) o2).getBirthDate();
 					int bdayComp = bday1.compareTo(bday2);
@@ -294,7 +305,7 @@ public class InputParser {
 		}
 	}
 	
-	public void sortByLastNameDescending() {
+	private void sortByLastNameDescending() {
 		if (!_people.isEmpty()) {
 			List<Person> list = new ArrayList<Person>();
 			for (Person person : _people) {

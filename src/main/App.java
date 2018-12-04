@@ -17,7 +17,7 @@ public class App {
 		InputParser parser = new InputParser();
 		parser.setScanner(path);
 		parser.parse();
-		parser.getOutput();
+		parser.getOutput(1);
 	}
 
 }
