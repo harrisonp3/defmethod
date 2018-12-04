@@ -11,6 +11,12 @@ public class InputParser {
 	private Scanner _scanner;
 	private String _delimiter;
 	private HashSet<Person> _people;
+	public static final String COMMA = "comma";
+	public static final String SPACE = "space";
+	public static final String PIPE = "pipe";
+	public static final int SORT_BY_GENDER_AND_LAST_NAME = 1;
+	public static final int SORT_BY_BIRTHDAY_AND_LAST_NAME = 2;
+	public static final int SORT_BY_LAST_NAME_DESCENDING = 3;
 
 	/**
 	 * Constructor
@@ -77,7 +83,7 @@ public class InputParser {
 	 * @return boolean
 	 */
 	private boolean isPipeDelimited() {
-		return _delimiter == "pipe";
+		return _delimiter == PIPE;
 	}
 	
 	/**
@@ -86,7 +92,7 @@ public class InputParser {
 	 * @return boolean
 	 */
 	private boolean isCommaDelimited() {
-		return _delimiter == "comma";
+		return _delimiter == COMMA;
 	}
 	
 	/**
@@ -95,7 +101,7 @@ public class InputParser {
 	 * @return boolean
 	 */
 	private boolean isSpaceDelimited() {
-		return _delimiter == "space";
+		return _delimiter == SPACE;
 	}
 	
 	/**
@@ -201,13 +207,19 @@ public class InputParser {
 		}
 	}
 	
+	/**
+	 * Based on the sort ID passed in, sort the collection of Person objects
+	 * 
+	 * @param int x ID of sort to use
+	 * @return List<Person>
+	 */
 	private List<Person> sort(int x) {
 		switch(x) {
-		case 1:
+		case SORT_BY_GENDER_AND_LAST_NAME:
 			return sortByGenderAndLastName();
-		case 2:
+		case SORT_BY_BIRTHDAY_AND_LAST_NAME:
 			return sortByBirthdayAndLastName();
-		case 3:
+		case SORT_BY_LAST_NAME_DESCENDING:
 		default:
 			return sortByLastNameDescending();
 		}
@@ -250,8 +262,12 @@ public class InputParser {
 	public String getDelimiter() {
 		return _delimiter;
 	}
-	
 
+	/**
+	 * Sort by gender ascending and then last name ascending
+	 * 
+	 * @return List<Person>
+	 */
 	private List<Person> sortByGenderAndLastName() {
 		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
@@ -277,6 +293,11 @@ public class InputParser {
 		return list;
 	}
 	
+	/**
+	 * Sort collection of people by birthday and then last name ascending
+	 * 
+	 * @return List<Person>
+	 */
 	private List<Person> sortByBirthdayAndLastName() {
 		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
@@ -304,6 +325,11 @@ public class InputParser {
 		return list;
 	}
 	
+	/**
+	 * Sort by last name descending
+	 * 
+	 * @return List<Person>
+	 */
 	private List<Person> sortByLastNameDescending() {
 		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
@@ -331,11 +357,11 @@ public class InputParser {
 	 */
 	protected void determineDelimiter(String input) {
 		if (input.contains("|")) {
-			_delimiter = "pipe";
+			_delimiter = PIPE;
 		} else if (input.contains(",")) {
-			_delimiter = "comma";
+			_delimiter = COMMA;
 		} else {
-			_delimiter = "space";
+			_delimiter = SPACE;
 		}
 	}
 }
