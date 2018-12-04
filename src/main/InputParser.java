@@ -268,6 +268,7 @@ public class InputParser {
 	 * 
 	 * @return List<Person>
 	 */
+	@SuppressWarnings("unchecked")
 	private List<Person> sortByGenderAndLastName() {
 		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
@@ -298,6 +299,7 @@ public class InputParser {
 	 * 
 	 * @return List<Person>
 	 */
+	@SuppressWarnings("unchecked")
 	private List<Person> sortByBirthdayAndLastName() {
 		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
@@ -330,6 +332,7 @@ public class InputParser {
 	 * 
 	 * @return List<Person>
 	 */
+	@SuppressWarnings("unchecked")
 	private List<Person> sortByLastNameDescending() {
 		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {

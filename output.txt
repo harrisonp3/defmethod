@@ -1,3 +1,0 @@
-Smith Steve Male 03/03/1985 Red
-Bouillon Francis Male 06/03/1975 Blue
-Bonk Radek Male 06/03/1975 Green
