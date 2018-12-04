@@ -11,7 +11,6 @@ public class InputParser {
 	private Scanner _scanner;
 	private String _delimiter;
 	private HashSet<Person> _people;
-	private List<Person> _peopleSorted;
 
 	/**
 	 * Constructor
