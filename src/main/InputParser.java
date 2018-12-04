@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.*;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class InputParser {
 	private Scanner _scanner;
 	private String _delimiter;
 	private HashSet<Person> _people;
+	private List<Person> _peopleSorted;
 
 	/**
 	 * Constructor
@@ -206,11 +208,12 @@ public class InputParser {
 	 * Print the properties of the Person objects in the HashSet
 	 */
 	public void getOutput() {
-		if (!_people.isEmpty()) {
+		sort();
+		if (!_peopleSorted.isEmpty()) {
 			PrintWriter writer;
 			try {
 				writer = new PrintWriter("output.txt", "UTF-8");
-				for (Person person : _people) {
+				for (Person person : _peopleSorted) {
 					String traits = person.getLastName() + " " + person.getFirstName() + " " + person.getGender() + " " + person.getBirthday() + " " + person.getColor();
 					writer.println(traits);
 				}
@@ -235,6 +238,33 @@ public class InputParser {
 	 */
 	public String getDelimiter() {
 		return _delimiter;
+	}
+	
+	//@tood hpaup need to make this dynamic based on the three options
+	public void sort() {
+		System.out.println("SORTING!");
+		if (!_people.isEmpty()) {
+			List<Person> list = new ArrayList<Person>();
+			for (Person person : _people) {
+				list.add(person);
+			}
+			Collections.sort(list, new Comparator() {
+				public int compare (Object o1, Object o2) {
+					// gender then last name ascending
+					String gender1 = ((Person) o1).getGender();
+					String gender2 = ((Person) o2).getGender();
+					int genComp = gender1.compareTo(gender2);
+					if (genComp != 0) {
+						return genComp;
+					}
+					
+					String lastName1 = ((Person) o1).getLastName();
+					String lastName2 = ((Person) o2).getLastName();
+					return lastName1.compareTo(lastName2);
+				}
+			});
+			_peopleSorted = list;
+		}
 	}
 	
 	/**
