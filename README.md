@@ -13,7 +13,12 @@
   - `javac -cp ../lib/mockito-all-2.0.2-beta.jar:../lib/junit-4.13-beta-1.jar main/*.java`
 - to run:
   - two inputs, the location of the input file and a number (1-3) for the different sorting options
-  - `java main.App ./main/pipe.txt 2`
+  - `java main.App ./main/pipe.txt 2` - in this case, the input file ("pipe.txt") is in the same directory as the .java files
+
+## Note
+- `1` corresponds to sorted by gender (females before males) then by last name ascending
+- `2` corresponds to sorted by birth date, ascending then by last name ascending
+- `3` corresponds to sorted by last name, descending
 
 
 
