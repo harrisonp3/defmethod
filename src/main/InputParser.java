@@ -6,8 +6,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.*;
-import java.util.HashSet;
-import java.util.Scanner;
 
 public class InputParser {
 	private Scanner _scanner;
@@ -204,15 +202,15 @@ public class InputParser {
 		}
 	}
 	
-	private void sort(int x) {
+	private List<Person> sort(int x) {
 		switch(x) {
 		case 1:
-			sortByGenderAndLastName();
+			return sortByGenderAndLastName();
 		case 2:
-			sortByBirthdayAndLastName();
+			return sortByBirthdayAndLastName();
 		case 3:
 		default:
-			sortByLastNameDescending();
+			return sortByLastNameDescending();
 		}
 	}
 	
@@ -222,12 +220,12 @@ public class InputParser {
 	 * @param int sortPreference
 	 */
 	public void getOutput(int sortPreference) {
-		sort(sortPreference);
-		if (!_peopleSorted.isEmpty()) {
+		List<Person> peopleSorted = sort(sortPreference);
+		if (!peopleSorted.isEmpty()) {
 			PrintWriter writer;
 			try {
 				writer = new PrintWriter("output.txt", "UTF-8");
-				for (Person person : _peopleSorted) {
+				for (Person person : peopleSorted) {
 					String traits = person.getLastName() + " " + person.getFirstName() + " " + person.getGender() + " " + person.getBirthday() + " " + person.getColor();
 					writer.println(traits);
 				}
@@ -255,9 +253,9 @@ public class InputParser {
 	}
 	
 
-	private void sortByGenderAndLastName() {
+	private List<Person> sortByGenderAndLastName() {
+		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
-			List<Person> list = new ArrayList<Person>();
 			for (Person person : _people) {
 				list.add(person);
 			}
@@ -268,21 +266,22 @@ public class InputParser {
 					String gender2 = ((Person) o2).getGender();
 					int genComp = gender1.compareTo(gender2);
 					if (genComp != 0) {
-						return genComp;
+						return genComp < 0 ? -1 : 1;
 					}
-					
 					String lastName1 = ((Person) o1).getLastName();
 					String lastName2 = ((Person) o2).getLastName();
-					return lastName2.compareTo(lastName1);
+					int result = lastName1.compareTo(lastName2);
+					return result < 0 ? -1 : 1;
 				}
 			});
-			_peopleSorted = list;
 		}
+		return list;
 	}
 	
-	private void sortByBirthdayAndLastName() {
+	private List<Person> sortByBirthdayAndLastName() {
+		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
-			List<Person> list = new ArrayList<Person>();
+			
 			for (Person person : _people) {
 				list.add(person);
 			}
@@ -301,13 +300,15 @@ public class InputParser {
 					return lastName1.compareTo(lastName2);
 				}
 			});
-			_peopleSorted = list;
+			
 		}
+		return list;
 	}
 	
-	private void sortByLastNameDescending() {
+	private List<Person> sortByLastNameDescending() {
+		List<Person> list = new ArrayList<Person>();
 		if (!_people.isEmpty()) {
-			List<Person> list = new ArrayList<Person>();
+			
 			for (Person person : _people) {
 				list.add(person);
 			}
@@ -318,8 +319,9 @@ public class InputParser {
 					return lastName2.compareTo(lastName1);
 				}
 			});
-			_peopleSorted = list;
+			
 		}
+		return list;
 	}
 	
 	/**
